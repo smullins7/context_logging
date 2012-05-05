@@ -2,6 +2,8 @@
 import logging
 import web
 
+from acme.lib import index
+
 class ContextFilter(logging.Filter):
     def filter(self, record):
         record.client_ip = web.ctx.env['REMOTE_ADDR']
@@ -18,7 +20,8 @@ class IndexController(object):
 
     def GET(self):
         logger.info("Received request")
-        return "Hello, world!"
+        params = web.input()
+        return index.get_index(params.get('name', 'UNKNOWN'))
 
 urls = (
     '/', 'IndexController',
