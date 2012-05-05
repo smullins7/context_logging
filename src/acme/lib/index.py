@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 logger.addFilter(acmelog.context_filter)
 
 def get_index(name):
-    logger.info("Doing work", extra={'customer_name': name})
+    logger.info("Doing work")
     return generate_random_number()
 
 def generate_random_number():
