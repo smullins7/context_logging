@@ -4,10 +4,7 @@ import logging
 import random
 import web
 
-from acme.lib import acmelog
-
 logger = logging.getLogger(__name__)
-logger.addFilter(acmelog.context_filter)
 
 def get_index(name):
     logger.info("Doing work")

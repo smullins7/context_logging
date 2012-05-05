@@ -11,4 +11,5 @@ class ContextFilter(logging.Filter):
         record.customer_name = tls.__dict__.get('customer_name', 'NOT_SET')
         return True
 
-context_filter = ContextFilter()
+def ContextFilterFactory():
+    return ContextFilter()
