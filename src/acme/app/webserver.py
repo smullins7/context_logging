@@ -2,19 +2,14 @@
 import logging
 import web
 
-from acme.lib import index
+from acme.lib import acmelog, index
 
-class ContextFilter(logging.Filter):
-    def filter(self, record):
-        record.client_ip = web.ctx.env['REMOTE_ADDR']
-        return True
 
-context_filter = ContextFilter()
 
 FORMAT = "%(asctime)s,%(msecs)d|%(levelname)s|%(client_ip)s|%(name)s|%(funcName)s|%(message)s"
 logging.basicConfig(format=FORMAT, level=logging.INFO)
 logger = logging.getLogger(__name__)
-logger.addFilter(context_filter)
+logger.addFilter(acmelog.context_filter)
 
 class IndexController(object):
 
