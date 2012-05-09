@@ -38,6 +38,6 @@ acme_logging_config = {
 config.dictConfig(acme_logging_config)
 
 if __name__ == "__main__":
-    from acme.app.webserver import IndexController, urls
+    from acme.app.webserver import IndexController, FooController, urls
     app = web.application(urls, globals())
     app.run()
