@@ -1,7 +1,7 @@
 
 import logging
 
-from logmdc.storage import thread_local_storage
+from logmdc.storage import mapped_context
 
 class ContextFilter(logging.Filter):
     """Inject values into logging message"""
@@ -16,7 +16,7 @@ class ContextFilter(logging.Filter):
 
     def filter(self, record):
         for k in self.keys:
-            value = thread_local_storage.__dict__.get(k, self.default)
+            value = mapped_context.get(k, self.default)
             setattr(record, k, value)
 
         return True

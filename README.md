@@ -15,11 +15,11 @@ Use the following filter in your logging config to inject these values into the 
 
 Now all you have to do is have code to set those values within a running process:
 
-    from logmdc.storage import thread_local_storage
-    thread_local_storage.CUSTOMER_NAME = 'foobar'
-    thread_local_storage.REMOTE_ADDR = '127.0.0.1'
+    from logmdc.storage import mapped_context
+    mapped_context.put('CUSTOMER_NAME', 'foobar')
+    mapped_context.put('REMOTE_ADDR', '127.0.0.1')
 
-Of course, this isn't all that useful by itself. If you're using this within a web application/service, you can automatically pull this information from HTTP headers (web.py example):
+Of course, this isn't all that useful by itself. If you're using this within a web application/service, you can automatically pull information from HTTP headers in this web.py example:
     
     from logmdc.webheaders import StoreHeaders
     store_headers = StoreHeaders([
@@ -42,7 +42,6 @@ details
 The core logic involves usage of the following:
  * logging.filters
  * logging.config.dictConfig
- * threading.local
 
 This project contains a dummy application to showcase the usage of the context logging. The code for logging is under _src/logmdc_.
 
