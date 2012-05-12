@@ -4,7 +4,7 @@ import logging
 from logging import config
 import web
 
-FORMAT = "%(asctime)s,%(msecs)d|%(levelname)s|%(client_ip)s|%(customer_name)s|%(name)s|%(funcName)s|%(message)s"
+FORMAT = "%(asctime)s,%(msecs)d|%(levelname)s|%(REMOTE_ADDR)s|%(CUSTOMER_NAME)s|%(name)s|%(funcName)s|%(message)s"
 acme_logging_config = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -15,7 +15,8 @@ acme_logging_config = {
     },
     'filters': {
         'context_filter': {
-            '()': 'acme.lib.acmelog.ContextFilterFactory',
+            '()': 'acme.lib.acmelog.ContextFilter',
+            'keys': ['REMOTE_ADDR', 'CUSTOMER_NAME'],
         },
     },
     'handlers': {

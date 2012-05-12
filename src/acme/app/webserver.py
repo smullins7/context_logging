@@ -6,10 +6,14 @@ from acme.lib import index, headers
 
 logger = logging.getLogger(__name__)
 
+store_headers = headers.StoreHeaders([
+    "REMOTE_ADDR",
+    "CUSTOMER_NAME",
+])
 
 class IndexController(object):
 
-    @headers.store_client_headers
+    @store_headers
     def GET(self):
         params = web.input()
         customer_name = params.get('name', 'UNKNOWN')
@@ -18,7 +22,7 @@ class IndexController(object):
 
 class FooController(object):
 
-    @headers.store_client_headers
+    @store_headers
     def GET(self, customer_name):
         return index.get_index(customer_name)
 
