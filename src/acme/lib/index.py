@@ -2,7 +2,6 @@
 
 import logging
 import random
-import web
 
 logger = logging.getLogger(__name__)
 
