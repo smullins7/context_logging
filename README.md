@@ -3,17 +3,50 @@ context_logging
 
 This project is a demonstration of using the Python logging framework to inject request context specific information into every log message, without passing that information into every log message function call.
 
+example
+-------
+If you're log format looked like this:
+`FORMAT = "%(asctime)s|%(levelname)s|%(REMOTE_ADDR)s|%(CUSTOMER_NAME)s|%(message)s"`
+
+The logging framework would not know what to do with `REMOTE_ADDR` and `CUSTOMER_NAME`.
+
+Use the following filter in your logging config to inject these values into the log message:
+`logmdc.filter.ContextFilter(keys=['REMOTE_ADDR', 'CUSTOMER_NAME'])`
+
+Now all you have to do is have code to set those values within a running process:
+
+    from logmdc.storage import thread_local_storage
+    thread_local_storage.CUSTOMER_NAME = 'foobar'
+    thread_local_storage.REMOTE_ADDR = '127.0.0.1'
+
+Of course, this isn't all that useful by itself. If you're using this within a web application/service, you can automatically pull this information from HTTP headers (web.py example):
+    
+    from logmdc.webheaders import StoreHeaders
+    store_headers = StoreHeaders([
+        "REMOTE_ADDR",
+        "CUSTOMER_NAME",
+    ])
+    
+    class IndexController(object):
+
+        @store_headers
+        def GET(self):
+            return 'OK'
+
+With this, any request to the IndexController with look for the headers `REMOTE_ADDR` and `CUSTOMER_NAME` and set them in local storage for the logging filter to inject them in the log message.
+
+**Note** that customer HTTP client request headers get prefixed with `HTTP_` in web.py, as such the `StoreHeaders` decorator by default will strip that prefix out to prevent a mismatch between the value set by the client and header name used by the logging filter.
+
+details
+-------
 The core logic involves usage of the following:
  * logging.filters
  * logging.config.dictConfig
  * threading.local
 
-This project contains a dummy application to showcase the usage of the context logging. Once I have abstracted the context into a reusable form, the project will be divided into the logging context library, and the dummy application.
+This project contains a dummy application to showcase the usage of the context logging. The code for logging is under _src/logmdc_.
 
 I am using this project as a case study for design best practices; the code is purposefully not designed for reuse, and will go through several iterations of improvements for the puporses of demonstrating design choices and tradeoffs.
 
-Lastly, this is the *TODO* list for this project:
+*TODO* list for this project:
  * unit testing
- * abstract the request context, allowing ContextFilter to be extended
- * with an abstract context, what to do about the message format if anything?
- * abstract the request context gathering, apply to multiple controllers
