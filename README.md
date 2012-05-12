@@ -11,7 +11,11 @@ If you're log format looked like this:
 The logging framework would not know what to do with `REMOTE_ADDR` and `CUSTOMER_NAME`.
 
 Use the following filter in your logging config to inject these values into the log message:
-`logmdc.filter.ContextFilter(keys=['REMOTE_ADDR', 'CUSTOMER_NAME'])`
+    import logging
+    from logmdc import filter
+    filter = ContextFilter(keys=['REMOTE_ADDR', 'CUSTOMER_NAME'])
+    logger = logging.getLogger()
+    logger.addFilter(filter)
 
 Now all you have to do is have code to set those values within a running process:
 
@@ -46,6 +50,3 @@ The core logic involves usage of the following:
 This project contains a dummy application to showcase the usage of the context logging. The code for logging is under _src/logmdc_.
 
 I am using this project as a case study for design best practices; the code is purposefully not designed for reuse, and will go through several iterations of improvements for the puporses of demonstrating design choices and tradeoffs.
-
-*TODO* list for this project:
- * unit testing
