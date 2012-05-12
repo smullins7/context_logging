@@ -2,4 +2,4 @@
 
 import threading
 
-tls = threading.local()
+thread_local_storage = threading.local()

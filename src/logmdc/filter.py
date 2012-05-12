@@ -1,7 +1,7 @@
 
 import logging
 
-from acme.lib.tlss import tls
+from logmdc.storage import thread_local_storage
 
 class ContextFilter(logging.Filter):
     """Inject values into logging message"""
@@ -16,6 +16,7 @@ class ContextFilter(logging.Filter):
 
     def filter(self, record):
         for k in self.keys:
-            setattr(record, k, tls.__dict__.get(k, self.default))
+            value = thread_local_storage.__dict__.get(k, self.default)
+            setattr(record, k, value)
 
         return True

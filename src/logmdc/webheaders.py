@@ -1,5 +1,5 @@
 
-from acme.lib.tlss import tls
+from logmdc.storage import thread_local_storage
 from functools import wraps
 import web
 
@@ -18,9 +18,12 @@ class StoreHeaders(object):
         @wraps(func)
         def wrapper(*args, **kwargs):
             for k in self._get_header_keys(web.ctx.env.keys()):
-                setattr(tls, self._strip_http(k), web.ctx.env[k])
+                self._store(k, web.ctx.env[k])
             return func(*args, **kwargs)
         return wrapper
+
+    def _store(self, k, v):
+        setattr(thread_local_storage, self._strip_http(k), v)
 
     def _get_header_keys(self, keys):
         for k in keys:

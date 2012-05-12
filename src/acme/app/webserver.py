@@ -2,11 +2,12 @@
 import logging
 import web
 
-from acme.lib import index, headers
+from acme.lib import index
+from logmdc.webheaders import StoreHeaders
 
 logger = logging.getLogger(__name__)
 
-store_headers = headers.StoreHeaders([
+store_headers = StoreHeaders([
     "REMOTE_ADDR",
     "CUSTOMER_NAME",
 ])

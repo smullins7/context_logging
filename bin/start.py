@@ -15,7 +15,7 @@ acme_logging_config = {
     },
     'filters': {
         'context_filter': {
-            '()': 'acme.lib.acmelog.ContextFilter',
+            '()': 'logmdc.filter.ContextFilter',
             'keys': ['REMOTE_ADDR', 'CUSTOMER_NAME'],
         },
     },
