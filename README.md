@@ -6,6 +6,7 @@ This project is a demonstration of using the Python logging framework to inject 
 example
 -------
 If you're log format looked like this:
+
 `FORMAT = "%(asctime)s|%(levelname)s|%(REMOTE_ADDR)s|%(CUSTOMER_NAME)s|%(message)s"`
 
 The logging framework would not know what to do with `REMOTE_ADDR` and `CUSTOMER_NAME`.
