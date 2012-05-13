@@ -11,6 +11,7 @@ If you're log format looked like this:
 The logging framework would not know what to do with `REMOTE_ADDR` and `CUSTOMER_NAME`.
 
 Use the following filter in your logging config to inject these values into the log message:
+
     import logging
     from logmdc import filter
     filter = ContextFilter(keys=['REMOTE_ADDR', 'CUSTOMER_NAME'])
