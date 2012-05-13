@@ -39,6 +39,7 @@ acme_logging_config = {
 config.dictConfig(acme_logging_config)
 
 if __name__ == "__main__":
-    from acme.app.webserver import IndexController, FooController, urls
+    from acme.app.webserver import IndexController, FooController, urls, header_filter
     app = web.application(urls, globals())
+    app.add_processor(web.loadhook(header_filter))
     app.run()

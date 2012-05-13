@@ -3,18 +3,17 @@ import logging
 import web
 
 from acme.lib import index
-from logmdc.webheaders import StoreHeaders
+from logmdc.webheaders import HeaderRequestFilter
 
 logger = logging.getLogger(__name__)
 
-store_headers = StoreHeaders([
+header_filter = HeaderRequestFilter([
     "REMOTE_ADDR",
     "CUSTOMER_NAME",
 ])
 
 class IndexController(object):
 
-    @store_headers
     def GET(self):
         params = web.input()
         customer_name = params.get('name', 'UNKNOWN')
@@ -23,7 +22,6 @@ class IndexController(object):
 
 class FooController(object):
 
-    @store_headers
     def GET(self, customer_name):
         return index.get_index(customer_name)
 

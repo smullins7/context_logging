@@ -3,7 +3,8 @@ from logmdc.storage import mapped_context
 from functools import wraps
 import web
 
-class StoreHeaders(object):
+
+class HeaderRequestFilter(object):
     """Stores specified request headers for later use."""
 
     def __init__(self, header_keys, strip_http=True):
@@ -14,13 +15,9 @@ class StoreHeaders(object):
         self.header_keys = header_keys
         self.strip_http = strip_http
 
-    def __call__(self, func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            for k in self._get_header_keys(web.ctx.env.keys()):
-                mapped_context.put(self._strip_http(k), web.ctx.env[k])
-            return func(*args, **kwargs)
-        return wrapper
+    def __call__(self):
+        for k in self._get_header_keys(web.ctx.env.keys()):
+            mapped_context.put(self._strip_http(k), web.ctx.env[k])
 
     def _get_header_keys(self, keys):
         for k in keys:
@@ -33,3 +30,14 @@ class StoreHeaders(object):
         if not self.strip_http or not k.startswith('HTTP_'):
             return k
         return k.split('_', 1)[1]
+
+
+class HeaderRequestFilterDecorator(HeaderRequestFilter):
+
+    def __call__(self, func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            self.store()
+            return func(*args, **kwargs)
+        return wrapper
+
