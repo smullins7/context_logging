@@ -40,7 +40,7 @@ Of course, this isn't all that useful by itself. If you're using this within a w
 
 With this, any request to this web.py app will look for the headers `REMOTE_ADDR` and `CUSTOMER_NAME` and set their values in local storage for the logging filter to inject those values in the log message.
 
-**Note** that customer HTTP client request headers get prefixed with `HTTP_` in web.py, as such the `StoreHeaders` decorator by default will strip that prefix out to prevent a mismatch between the value set by the client and header name used by the logging filter.
+**Note** that customer HTTP client request headers get prefixed with `HTTP_` in web.py, as such the `HeaderRequestFilter` by default will strip that prefix out to prevent a mismatch between the value set by the client and header name used by the logging filter.
 
 details
 -------
