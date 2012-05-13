@@ -27,7 +27,7 @@ Now all you have to do is have code to set those values within a running process
 Of course, this isn't all that useful by itself. If you're using this within a web application/service, you can automatically pull information from HTTP headers in this web.py example:
     
     from logmdc.webheaders import HeaderRequestFilter
-    store_headers = HeaderRequestFilter([
+    header_filter = HeaderRequestFilter([
         "REMOTE_ADDR",
         "CUSTOMER_NAME",
     ])
