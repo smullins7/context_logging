@@ -49,5 +49,3 @@ The core logic involves usage of the following:
  * logging.config.dictConfig
 
 This project contains a dummy application to showcase the usage of the context logging. The code for logging is under _src/logmdc_.
-
-I am using this project as a case study for design best practices; the code is purposefully not designed for reuse, and will go through several iterations of improvements for the puporses of demonstrating design choices and tradeoffs.
